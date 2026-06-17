@@ -29,3 +29,4 @@ Impact Analysis
 
 node tools/runImpactPipeline.js
 npx playwright test tests/discovery-client-management.spec.ts --headed
+npx playwright test tests/discovery-client-edit.spec.ts --headed

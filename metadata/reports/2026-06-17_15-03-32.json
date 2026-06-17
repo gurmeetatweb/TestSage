@@ -1,6 +1,6 @@
 [
   {
-    "screenName": "ClientCreate",
+    "screen": "ClientCreate",
     "changes": [
       {
         "sectionName": "Labels",
@@ -12,7 +12,19 @@
     ]
   },
   {
-    "screenName": "Dashboard",
+    "screen": "ClientEdit",
+    "changes": [
+      {
+        "sectionName": "Labels",
+        "added": [],
+        "removed": [
+          "Client Fax"
+        ]
+      }
+    ]
+  },
+  {
+    "screen": "Dashboard",
     "changes": [
       {
         "sectionName": "Labels",

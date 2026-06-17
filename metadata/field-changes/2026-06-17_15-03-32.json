@@ -4,5 +4,11 @@
     "changeType": "Removed",
     "screen": "ClientCreate",
     "section": "Labels"
+  },
+  {
+    "field": "Client Fax",
+    "changeType": "Removed",
+    "screen": "ClientEdit",
+    "section": "Labels"
   }
 ]

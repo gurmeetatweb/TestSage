@@ -1,8 +1,10 @@
 {
-  "screen": "ClientManagementList",
+  "screen": "ClientEdit",
   "url": "https://demo-emdatapro.valogicbio.com/client-management",
   "actions": [
-    "Create New"
+    "Create New",
+    "Cancel",
+    "Save"
   ],
   "links": [
     "dashboardDashboard",
@@ -21,9 +23,31 @@
     "task_altSigned-Off Project",
     "show_chartTrend Reports",
     "descriptionAudit Log",
+    "Valogic",
+    "ABL, Inc.",
+    "WES Pharma",
+    "Medcura",
+    "Test",
+    "AbelZeta",
+    "Granules",
+    "Granules-Test",
+    "Onconex",
     "VaLogic Bio LLC"
   ],
-  "labels": [],
+  "labels": [
+    "Client Name",
+    "Client Code",
+    "Client Fullname",
+    "Client Email",
+    "Client Phone",
+    "Client Address",
+    "Client Status:",
+    "Active",
+    "Inactive",
+    "RNase/DNase:",
+    "Enabled",
+    "Disabled"
+  ],
   "tableHeaders": [
     "Name",
     "Code",
@@ -34,5 +58,5 @@
     "Status",
     "Action"
   ],
-  "inputCount": 8
+  "inputCount": 18
 }

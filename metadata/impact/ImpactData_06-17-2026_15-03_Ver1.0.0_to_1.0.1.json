@@ -1,11 +1,18 @@
 {
-  "generatedOn": "2026-06-17T03:46:42.756Z",
+  "generatedOn": "2026-06-17T09:33:33.184Z",
+  "baselineVersion": "1.0.0",
+  "currentVersion": "1.0.1",
   "impact": [
     {
       "field": "Client Fax",
       "changeType": "Removed",
+      "originatingScreens": [
+        "ClientCreate",
+        "ClientEdit"
+      ],
       "impactedScreens": [
-        "ClientCreate"
+        "ClientCreate",
+        "ClientEdit"
       ],
       "impactedFlows": [
         "client-management-flow"

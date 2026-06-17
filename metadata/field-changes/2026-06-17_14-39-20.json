@@ -2,6 +2,7 @@
   {
     "field": "Client Fax",
     "changeType": "Removed",
+    "screen": "ClientEdit",
     "section": "Labels"
   }
 ]

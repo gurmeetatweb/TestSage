@@ -65,12 +65,19 @@ if (fs.existsSync(HISTORY_FILE)) {
 /*
  * Read latest field changes
  */
+const files = fs.readdirSync(FIELD_CHANGES_DIR)
+    .filter(file => file.endsWith('.json'));
 
-const latestFieldChangeFile =
-    fs.readdirSync(FIELD_CHANGES_DIR)
-        .filter(file => file.endsWith('.json'))
-        .sort()
-        .pop();
+const latestFieldChangeFile = files
+    .map(file => ({
+        file,
+        time: fs.statSync(
+            path.join(FIELD_CHANGES_DIR, file)
+        ).mtimeMs
+    }))
+    .sort((a, b) => b.time - a.time)[0]
+    ?.file;
+
 
 console.log(
     'Latest field change file:',

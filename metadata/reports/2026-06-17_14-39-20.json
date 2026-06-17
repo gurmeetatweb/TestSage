@@ -1,7 +1,6 @@
 [
   {
-    "reportDate": "2026-06-12_22-12-44",
-    "screenName": "ClientCreate",
+    "screen": "ClientEdit",
     "changes": [
       {
         "sectionName": "Labels",
@@ -13,8 +12,7 @@
     ]
   },
   {
-    "reportDate": "2026-06-12_22-12-44",
-    "screenName": "Dashboard",
+    "screen": "Dashboard",
     "changes": [
       {
         "sectionName": "Labels",

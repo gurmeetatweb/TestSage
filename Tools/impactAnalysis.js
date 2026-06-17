@@ -1,6 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
+const VERSION_FILE = path.join(
+    process.cwd(),
+    'metadata',
+    'version.json'
+);
+
+const versions =
+    JSON.parse(
+        fs.readFileSync(
+            VERSION_FILE,
+            'utf8'
+        )
+    );
+
 const FIELD_CHANGES_DIR = path.join(
     process.cwd(),
     'metadata',
@@ -77,6 +91,10 @@ function analyzeImpact() {
         getLatestFieldChanges();
 
     console.log(
+        fs.readdirSync(FIELD_CHANGES_DIR)
+    );
+
+    console.log(
         'Using field changes:',
         latestFieldChanges
     );
@@ -100,8 +118,8 @@ function analyzeImpact() {
             )
         );
 
-    const impact = [];
-
+    
+    const impactMap = {};
     for (const change of fieldChanges) {
         console.log('\nProcessing field:', change.field);
         console.log(
@@ -113,21 +131,80 @@ function analyzeImpact() {
             fieldRegistry[
                 change.field
             ];
+        
 
         if (!registryEntry) {
-
             console.warn(
                 `Field not found in registry: ${change.field}`
             );
-
-            continue;
         }
         console.log(
             'Field FOUND:',
             registryEntry
         );
 
-        impact.push({
+        const fieldName = change.field;
+
+        if (!impactMap[fieldName]) {
+
+            impactMap[fieldName] = {
+
+                field: fieldName,
+
+                changeType: change.changeType,
+
+                originatingScreens: [],
+
+                impactedScreens: [],
+
+                impactedFlows: [],
+
+                recommendedRegression: []
+            };
+        }
+
+        if (
+            change.screen &&
+            !impactMap[fieldName]
+                .originatingScreens
+                .includes(change.screen)
+        ) {
+
+            impactMap[fieldName]
+                .originatingScreens
+                .push(change.screen);
+        }
+        if (registryEntry) {
+            impactMap[fieldName]
+                .impactedFlows = [
+                    ...new Set([
+                        ...impactMap[fieldName]
+                            .impactedFlows,
+
+                        ...(registryEntry.flows || [])
+                    ])
+                ];
+        }    
+
+        impactMap[fieldName]
+            .impactedScreens = [
+                ...impactMap[fieldName]
+                    .originatingScreens
+            ];
+        
+        impactMap[fieldName]
+            .recommendedRegression = [
+                ...new Set([
+                    ...impactMap[fieldName]
+                        .recommendedRegression,
+
+                    ...getRecommendations(
+                        change.section
+                    )
+                ])
+            ];
+
+        /*impact.push({
 
             field:
                 change.field,
@@ -148,15 +225,19 @@ function analyzeImpact() {
                 getRecommendations(
                     change.section
                 )
-        });
+        });*/
+
     }
-
+    const impact =
+        Object.values(impactMap);
     return {
-
         generatedOn:
             new Date()
                 .toISOString(),
-
+        baselineVersion:
+            versions.baselineVersion,
+        currentVersion:
+            versions.currentVersion,
         impact
     };
 }
@@ -184,10 +265,22 @@ console.log(
     )
 );
 
+function getFileCompatibleTimestamp() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  
+  return `${month}-${day}-${year}_${hours}-${minutes}`;
+}
+
 const outputFile =
     path.join(
         IMPACT_DIR,
-        `${Date.now()}.json`
+        //`${Date.now()}.json`
+        `ImpactData_${getFileCompatibleTimestamp()}_Ver${versions.baselineVersion}_to_${versions.currentVersion}.json`
     );
 
 fs.writeFileSync(
@@ -209,7 +302,14 @@ const report = [];
 
 report.push('TESTSAGE IMPACT REPORT');
 report.push('======================');
+report.push('');
 
+report.push(`Generated On : ${result.generatedOn}`);
+report.push(`Baseline Version : ${result.baselineVersion}`);
+
+report.push(`Current Version : ${result.currentVersion}`);
+report.push('======================');
+report.push('');
 result.impact.forEach(item => {
 
     report.push('');
@@ -234,11 +334,23 @@ result.impact.forEach(item => {
         report.push(`- ${test}`)
     );
 });
-
-fs.writeFileSync(
+const reportDir =
     path.join(
         IMPACT_DIR,
-        'impact-report.txt'
+        'report'
+    );
+
+if (!fs.existsSync(reportDir)) {
+
+    fs.mkdirSync(
+        reportDir,
+        { recursive: true }
+    );
+}
+fs.writeFileSync(
+    path.join(
+        reportDir,
+        `impact-report-${getFileCompatibleTimestamp()}_Ver${versions.baselineVersion}_to_${versions.currentVersion}.txt`
     ),
     report.join('\n'),
     'utf8'

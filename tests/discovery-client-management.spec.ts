@@ -22,8 +22,12 @@ test('Discover Client Management Flow', async ({ page }) => {
         'Dashboard'
     );
 
-    await FlowRecorder.captureScreenMetadata(
+    const dashboardMetadata = await FlowRecorder.captureScreenMetadata(
         page,
+        'Dashboard'
+    );
+    await FlowRecorder.saveMetadata(
+        dashboardMetadata,
         'Dashboard'
     );
     await page
@@ -46,8 +50,12 @@ test('Discover Client Management Flow', async ({ page }) => {
         'Client Management List'
     );
 
-    await FlowRecorder.captureScreenMetadata(
+    const listMetadata = await FlowRecorder.captureScreenMetadata(
         page,
+        'ClientManagementList'
+    );
+    await FlowRecorder.saveMetadata(
+        listMetadata,
         'ClientManagementList'
     );
     console.log('--- Client Management List Metadata ---');
@@ -73,8 +81,12 @@ test('Discover Client Management Flow', async ({ page }) => {
         'client-management-flow',
         'Client Create'
     );
-    await FlowRecorder.captureScreenMetadata(
+    const createMetadata = await FlowRecorder.captureScreenMetadata(
         page,
+        'ClientCreate'
+    );
+    await FlowRecorder.saveMetadata(
+        createMetadata,
         'ClientCreate'
     );
 });

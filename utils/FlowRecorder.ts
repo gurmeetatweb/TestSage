@@ -52,6 +52,7 @@ export class FlowRecorder {
             )
         );
     }
+    
     static async captureScreenMetadata(
         page: any,
         screenName: string
@@ -157,16 +158,36 @@ export class FlowRecorder {
 
         console.log(`Metadata for screen: ${screenName}`);
         console.log(JSON.stringify(data, null, 2));
+        return data;
+    }
+    static saveMetadata(
+        data: any,
+        screenName: string
+    )    {
+
+        const outputDir =
+            'metadata/current/screens';
+
+        if (!fs.existsSync(outputDir)) {
+
+            fs.mkdirSync(
+                outputDir,
+                { recursive: true }
+            );
+        }
 
         fs.writeFileSync(
-            `metadata/screens/${screenName}.json`,
+            `${outputDir}/${screenName}.json`,
             JSON.stringify(
                 data,
                 null,
                 2
             )
         );
-    }    
+
+        return data;
+    }
+        
 
 }
 

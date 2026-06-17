@@ -94,11 +94,20 @@ function buildFieldChanges() {
                         'Added',
 
                     screen:
-                        screen.screenName,
+                        screen.screen,
 
                     section:
                         change.sectionName
                 });
+                console.log(
+                    'SCREEN:',
+                    screen.screen
+                );
+
+                console.log(
+                    'FIELD:',
+                    field
+                );
             }
 
             /*
@@ -123,7 +132,7 @@ function buildFieldChanges() {
                         'Removed',
 
                     screen:
-                        screen.screenName,
+                        screen.screen,
 
                     section:
                         change.sectionName

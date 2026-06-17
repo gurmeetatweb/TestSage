@@ -1,11 +1,18 @@
 TESTSAGE IMPACT REPORT
 ======================
 
+Generated On : 2026-06-17T09:33:33.184Z
+Baseline Version : 1.0.0
+Current Version : 1.0.1
+======================
+
+
 Field : Client Fax
 Change : Removed
 
 Impacted Screens
 - ClientCreate
+- ClientEdit
 
 Impacted Flows
 - client-management-flow
