@@ -1,0 +1,20 @@
+{
+  "generatedOn": "2026-06-16T19:43:56.835Z",
+  "impact": [
+    {
+      "field": "Client Fax",
+      "changeType": "Removed",
+      "impactedScreens": [
+        "ClientCreate"
+      ],
+      "impactedFlows": [
+        "client-management-flow"
+      ],
+      "recommendedRegression": [
+        "Verify Validation",
+        "Verify Save",
+        "Verify Edit"
+      ]
+    }
+  ]
+}

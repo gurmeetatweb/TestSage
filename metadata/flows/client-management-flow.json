@@ -1,0 +1,17 @@
+[
+  {
+    "timestamp": "2026-06-11T11:08:35.163Z",
+    "screen": "Dashboard",
+    "url": "https://demo-emdatapro.valogicbio.com/dashboard"
+  },
+  {
+    "timestamp": "2026-06-11T11:08:37.316Z",
+    "screen": "Client Management List",
+    "url": "https://demo-emdatapro.valogicbio.com/client-management"
+  },
+  {
+    "timestamp": "2026-06-11T11:08:37.880Z",
+    "screen": "Client Create",
+    "url": "https://demo-emdatapro.valogicbio.com/client-management"
+  }
+]

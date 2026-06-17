@@ -1,0 +1,8 @@
+[
+  {
+    "field": "Client Fax",
+    "changeType": "Removed",
+    "screen": "ClientCreate",
+    "section": "Labels"
+  }
+]

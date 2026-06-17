@@ -1,0 +1,16 @@
+TESTSAGE IMPACT REPORT
+======================
+
+Field : Client Fax
+Change : Removed
+
+Impacted Screens
+- ClientCreate
+
+Impacted Flows
+- client-management-flow
+
+Recommended Regression
+- Verify Validation
+- Verify Save
+- Verify Edit

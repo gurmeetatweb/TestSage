@@ -1,0 +1,28 @@
+[
+  {
+    "reportDate": "2026-06-12_22-12-44",
+    "screenName": "ClientCreate",
+    "changes": [
+      {
+        "sectionName": "Labels",
+        "added": [],
+        "removed": [
+          "Client Fax"
+        ]
+      }
+    ]
+  },
+  {
+    "reportDate": "2026-06-12_22-12-44",
+    "screenName": "Dashboard",
+    "changes": [
+      {
+        "sectionName": "Labels",
+        "added": [],
+        "removed": [
+          "Dashboard"
+        ]
+      }
+    ]
+  }
+]

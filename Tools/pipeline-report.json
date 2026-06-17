@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-06-17T03:46:42.776Z",
+  "totalDuration": "0.54",
+  "scripts": [
+    {
+      "name": "Build Field Registry",
+      "path": "tools/buildFieldRegistry.js",
+      "exitCode": 0,
+      "duration": "0.12",
+      "stdout": "Reading screens from:\nD:\\VA Logic Dev\\EMDataPro-QA\\metadata\\current\\screens\n\nField registry generated successfully.\n\nSaved to:\nD:\\VA Logic Dev\\EMDataPro-QA\\metadata\\field-registry\\fields.json\n\nTotal fields discovered: 8\n",
+      "stderr": "",
+      "success": true
+    },
+    {
+      "name": "Compare Snapshots",
+      "path": "tools/compareSnapshots.js",
+      "exitCode": 0,
+      "duration": "0.13",
+      "stdout": "Reading JSON files from: D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\current\\screens\n\n\n==============================\n SNAPSHOT COMPARISON REPORT\n==============================\n\nSCREEN: ClientCreate\nOutput written to: D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\reports\\2026-06-17_09-16-42.json\n\n  Labels:\n    Removed:\n      - Client Fax\n\n--------------------------------\nSCREEN: ClientManagementList\n--------------------------------\nSCREEN: Dashboard\nOutput written to: D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\reports\\2026-06-17_09-16-42.json\n\n  Labels:\n    Removed:\n      - Dashboard\n\n--------------------------------\n",
+      "stderr": "",
+      "success": true
+    },
+    {
+      "name": "Build Field Changes",
+      "path": "tools/buildFieldChanges.js",
+      "exitCode": 0,
+      "duration": "0.09",
+      "stdout": "\nField Changes Generated:\n\n[\n  {\n    \"field\": \"Client Fax\",\n    \"changeType\": \"Removed\",\n    \"section\": \"Labels\"\n  }\n]\n\nSaved To:\n D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\field-changes\\2026-06-17_09-16-42.json\n",
+      "stderr": "",
+      "success": true
+    },
+    {
+      "name": "Update Field History",
+      "path": "tools/updateFieldHistory.js",
+      "exitCode": 0,
+      "duration": "0.09",
+      "stdout": "Latest field change file: 2026-06-17_09-16-42.json\nReading: D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\field-changes\\2026-06-17_09-16-42.json\nContent length: 91\nFirst 200 chars:\n[\n  {\n    \"field\": \"Client Fax\",\n    \"changeType\": \"Removed\",\n    \"section\": \"Labels\"\n  }\n]\n\nField history updated.\nSaved to: D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\field-registry\\fields.json\n",
+      "stderr": "",
+      "success": true
+    },
+    {
+      "name": "Impact Analysis",
+      "path": "tools/impactAnalysis.js",
+      "exitCode": 0,
+      "duration": "0.10",
+      "stdout": "Using field changes: 2026-06-17_09-16-42.json\n\nProcessing field: Client Fax\nAvailable registry fields: [\n  'Client Name',\n  'Client Code',\n  'Client Fullname',\n  'Client Email',\n  'Client Phone',\n  'Client Address',\n  'Client Status',\n  'RNase/DNase',\n  'Client Fax'\n]\nField FOUND: {\n  screens: [ 'ClientCreate' ],\n  flows: [ 'client-management-flow' ],\n  status: 'Removed',\n  firstSeenVersion: '1.0.0',\n  activeUntilVersion: '1.0.0',\n  removedInVersion: '1.0.1',\n  history: [\n    {\n      version: '1.0.0',\n      action: 'Added',\n      date: '2026-06-17T03:46:42.650Z'\n    },\n    {\n      version: '1.0.1',\n      action: 'Removed',\n      date: '2026-06-17T03:46:42.651Z'\n    }\n  ]\n}\n\n==============================\nIMPACT ANALYSIS REPORT\n==============================\n\n{\n  \"generatedOn\": \"2026-06-17T03:46:42.756Z\",\n  \"impact\": [\n    {\n      \"field\": \"Client Fax\",\n      \"changeType\": \"Removed\",\n      \"impactedScreens\": [\n        \"ClientCreate\"\n      ],\n      \"impactedFlows\": [\n        \"client-management-flow\"\n      ],\n      \"recommendedRegression\": [\n        \"Verify Validation\",\n        \"Verify Save\",\n        \"Verify Edit\"\n      ]\n    }\n  ]\n}\n\nSaved to:\n D:\\VA Logic Dev\\EMDataPro-QA\\metadata\\impact\\1781668002757.json\n",
+      "stderr": "",
+      "success": true
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  }
+}

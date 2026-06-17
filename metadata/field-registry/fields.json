@@ -1,0 +1,106 @@
+{
+  "Client Name": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Code": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Fullname": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Email": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Phone": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Address": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Status": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "RNase/DNase": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Active",
+    "activeUntilVersion": "1.0.1"
+  },
+  "Client Fax": {
+    "screens": [
+      "ClientCreate"
+    ],
+    "flows": [
+      "client-management-flow"
+    ],
+    "status": "Removed",
+    "firstSeenVersion": "1.0.0",
+    "activeUntilVersion": "1.0.0",
+    "removedInVersion": "1.0.1",
+    "history": [
+      {
+        "version": "1.0.0",
+        "action": "Added",
+        "date": "2026-06-17T03:46:42.650Z"
+      },
+      {
+        "version": "1.0.1",
+        "action": "Removed",
+        "date": "2026-06-17T03:46:42.651Z"
+      }
+    ]
+  }
+}

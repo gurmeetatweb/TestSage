@@ -1,0 +1,26 @@
+[
+  {
+    "screenName": "ClientCreate",
+    "changes": [
+      {
+        "sectionName": "Labels",
+        "added": [],
+        "removed": [
+          "Client Fax"
+        ]
+      }
+    ]
+  },
+  {
+    "screenName": "Dashboard",
+    "changes": [
+      {
+        "sectionName": "Labels",
+        "added": [],
+        "removed": [
+          "Dashboard"
+        ]
+      }
+    ]
+  }
+]
