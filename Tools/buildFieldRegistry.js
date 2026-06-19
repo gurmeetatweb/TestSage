@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const DEBUG = true;
 const SCREENS_DIR = path.join(
     process.cwd(),
     'metadata',
@@ -39,8 +39,10 @@ function buildFieldRegistry() {
 
     const registry = {};
 
-    console.log('Reading screens from:');
-    console.log(SCREENS_DIR);
+    if (DEBUG) {
+        console.log('Reading screens from:');
+        console.log(SCREENS_DIR);
+    }
 
     const screenFiles =
         fs.readdirSync(SCREENS_DIR)
@@ -83,9 +85,7 @@ function buildFieldRegistry() {
 
                 registry[field] = {
 
-                    screens: [],
-
-                    flows: []
+                    screens: []
                 };
             }
             //field = field;
@@ -102,81 +102,90 @@ function buildFieldRegistry() {
         });
     }
 
-    /*
-     * STEP 2
-     * Build field → flow mapping
-     */
-    const flowFiles =
-        fs.readdirSync(FLOWS_DIR)
-            .filter(file => file.endsWith('.json'));
+    // /*
+    //  * STEP 2
+    //  * Build field → flow mapping
+    //  */
+    // const flowFiles =
+    //     fs.readdirSync(FLOWS_DIR)
+    //         .filter(
 
-    for (const flowFile of flowFiles) {
+    //             file =>
 
-        const flowData =
-            JSON.parse(
-                fs.readFileSync(
-                    path.join(
-                        FLOWS_DIR,
-                        flowFile
-                    ),
-                    'utf8'
-                )
-            );
+    //                 file.endsWith('-flow.json')
 
-        const flowName =
-            flowFile.replace(
-                '.json',
-                ''
-            );
+    //         );
 
-        /*
-         * Support both:
-         * [{ screen: 'Dashboard' }]
-         * and
-         * ['Dashboard']
-         */
-        const screensInFlow =
-            flowData.map(step => {
+    // for (const flowFile of flowFiles) {
+        
 
-                const screen =
-                    typeof step === 'string'
+    //     const flowData =
+    //         JSON.parse(
+    //             fs.readFileSync(
+    //                 path.join(
+    //                     FLOWS_DIR,
+    //                     flowFile
+    //                 ),
+    //                 'utf8'
+    //             )
+    //         );
+    //     console.log('flowData:');
+    //     console.log(flowData);
 
-                        ? step
+    //     const flowName =
+    //         flowFile.replace(
+    //             '.json',
+    //             ''
+    //         );
 
-                        : step.screen;
+    //     /*
+    //      * Support both:
+    //      * [{ screen: 'Dashboard' }]
+    //      * and
+    //      * ['Dashboard']
+    //      */
+    //     const screensInFlow =
+    //         flowData.map(step => {
 
-                return screen
-                    .replace(/\s+/g, '');
-            });
+    //             const screen =
+    //                 typeof step === 'string'
 
-        Object.keys(registry)
-            .forEach(field => {
+    //                     ? step
 
-                const fieldScreens =
-                    registry[field]
-                        .screens;
+    //                     : step.screen;
 
-                const usedInFlow =
-                    fieldScreens.some(
-                        screen =>
+    //             return screen
+    //                 .replace(/\s+/g, '');
+    //         });
 
-                            screensInFlow
-                                .includes(screen.replace(/\s+/g, ''))
-                    );
+    //     Object.keys(registry)
+    //         .forEach(field => {
 
-                if (
-                    usedInFlow &&
-                    !registry[field]
-                        .flows
-                        .includes(flowName)
-                ) {
+    //             const fieldScreens =
+    //                 registry[field]
+    //                     .screens;
 
-                    registry[field]
-                        .flows
-                        .push(flowName);
-                }
-            });
-    }
+    //             const usedInFlow =
+    //                 fieldScreens.some(
+    //                     screen =>
+
+    //                         screensInFlow
+    //                             .includes(screen.replace(/\s+/g, ''))
+    //                 );
+
+    //             if (
+    //                 usedInFlow &&
+    //                 !registry[field]
+    //                     .flows
+    //                     .includes(flowName)
+    //             ) {
+
+    //                 registry[field]
+    //                     .flows
+    //                     .push(flowName);
+    //             }
+    //         });
+    // }
 
     /*
      * STEP 3
@@ -194,23 +203,24 @@ function buildFieldRegistry() {
 
         'utf8'
     );
+    if (DEBUG) {
+        console.log(
+            '\nField registry generated successfully.'
+        );
 
-    console.log(
-        '\nField registry generated successfully.'
-    );
+        console.log(
+            '\nSaved to:'
+        );
 
-    console.log(
-        '\nSaved to:'
-    );
+        console.log(
+            OUTPUT_FILE
+        );
 
-    console.log(
-        OUTPUT_FILE
-    );
-
-    console.log(
-        '\nTotal fields discovered:',
-        Object.keys(registry).length
-    );
+        console.log(
+            '\nTotal fields discovered:',
+            Object.keys(registry).length
+        );
+    }
 }
 
 buildFieldRegistry();

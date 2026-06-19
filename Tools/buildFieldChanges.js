@@ -13,6 +13,8 @@ const OUTPUT_DIR = path.join(
     'field-changes'
 );
 
+const DEBUG = false;
+
 if (!fs.existsSync(OUTPUT_DIR)) {
 
     fs.mkdirSync(
@@ -99,15 +101,18 @@ function buildFieldChanges() {
                     section:
                         change.sectionName
                 });
-                console.log(
-                    'SCREEN:',
-                    screen.screen
-                );
+                if (DEBUG) {
+                    console.log(
+                        'SCREEN:',
+                        screen.screen
+                    );
+                    console.log(
+                        'FIELD:',
+                        field
+                    );
+                }
 
-                console.log(
-                    'FIELD:',
-                    field
-                );
+
             }
 
             /*
@@ -159,23 +164,24 @@ function buildFieldChanges() {
 
         'utf8'
     );
+    if (DEBUG) {
+        console.log(
+            '\nField Changes Generated:\n'
+        );
 
-    console.log(
-        '\nField Changes Generated:\n'
-    );
+        console.log(
+            JSON.stringify(
+                fieldChanges,
+                null,
+                2
+            )
+        );
 
-    console.log(
-        JSON.stringify(
-            fieldChanges,
-            null,
-            2
-        )
-    );
-
-    console.log(
-        '\nSaved To:\n',
-        outputFile
-    );
+        console.log(
+            '\nSaved To:\n',
+            outputFile
+        );
+    }
 }
 
 buildFieldChanges();

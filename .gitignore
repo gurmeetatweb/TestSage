@@ -1,8 +1,26 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
 
 # Playwright
-node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Generated metadata files
+metadata/**/*.json
+metadata/**/*.md
+metadata/**/*.txt
+
+# Keep folder structure
+!metadata/.gitkeep
+!metadata/**/.gitkeep
+
+# Keep version file if it is part of source control
+!metadata/version.json

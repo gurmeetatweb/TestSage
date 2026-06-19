@@ -10,7 +10,7 @@ test.use({
 test('Discover Client Management Flow', async ({ page }) => {
 
     FlowRecorder.startFlow(
-        'client-management-flow'
+        'client-edit-flow'
     );
 
     await page.goto(
@@ -19,7 +19,7 @@ test('Discover Client Management Flow', async ({ page }) => {
 
     await FlowRecorder.recordPage(
         page,
-        'client-management-flow',
+        'client-edit-flow',
         'Dashboard'
     );
 
@@ -47,7 +47,7 @@ test('Discover Client Management Flow', async ({ page }) => {
     
     await FlowRecorder.recordPage(
         page,
-        'client-management-flow',
+        'client-edit-flow',
         'Client Management List'
     );
 
@@ -86,7 +86,7 @@ test('Discover Client Management Flow', async ({ page }) => {
     await FlowRecorder
             .recordPage(
                 page,
-                'client-management-flow',
+                'client-edit-flow',
                 'Client Edit'
             );
 

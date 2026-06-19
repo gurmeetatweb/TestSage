@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const DEBUG = true;
 const VERSION_FILE = path.join(
     process.cwd(),
     'metadata',
@@ -28,6 +28,13 @@ const FIELD_REGISTRY_FILE =
         'field-registry',
         'fields.json'
     );
+const FLOW_REGISTRY_FILE =
+    path.join(
+        process.cwd(),
+        'metadata',
+        'flows',
+        'flow-registry.json'
+    );    
 
 const IMPACT_DIR = path.join(
     process.cwd(),
@@ -89,16 +96,31 @@ function analyzeImpact() {
 
     const latestFieldChanges =
         getLatestFieldChanges();
+    
+    const currentFieldRegistry =
+        JSON.parse(
+            fs.readFileSync(
+                path.join(
+                    process.cwd(),
+                    'metadata',
+                    'field-registry',
+                    'fields-current.json'
+                ),
+                'utf8'
+            )
+        );
 
-    console.log(
-        fs.readdirSync(FIELD_CHANGES_DIR)
-    );
+    if (DEBUG) {
+        console.log(
+            fs.readdirSync(FIELD_CHANGES_DIR)
+        );
+    
 
-    console.log(
-        'Using field changes:',
-        latestFieldChanges
-    );
-
+        console.log(
+            'Using field changes:',
+            latestFieldChanges
+        );
+    }
     const fieldChanges =
         JSON.parse(
             fs.readFileSync(
@@ -117,15 +139,27 @@ function analyzeImpact() {
                 'utf8'
             )
         );
+    const flowRegistry = JSON.parse(
+        fs.readFileSync(
+            FLOW_REGISTRY_FILE,
+            'utf8'
+        )
+    );
 
     
     const impactMap = {};
     for (const change of fieldChanges) {
-        console.log('\nProcessing field:', change.field);
-        console.log(
-            'Available registry fields:',
-            Object.keys(fieldRegistry)
-        );
+        if (DEBUG) {
+            console.log('\nProcessing field:', change.field);
+            console.log(
+                'Available registry fields:',
+                Object.keys(fieldRegistry)
+            );
+        }
+        /*const registryEntry =
+            currentFieldRegistry[
+                change.field
+            ];*/
 
         const registryEntry =
             fieldRegistry[
@@ -134,14 +168,18 @@ function analyzeImpact() {
         
 
         if (!registryEntry) {
-            console.warn(
-                `Field not found in registry: ${change.field}`
+            if (DEBUG) {
+                console.warn(
+                    `Field not found in registry: ${change.field}`
+                );
+            }
+        }
+        if (DEBUG) {
+            console.log(
+                'Field FOUND:',
+                registryEntry
             );
         }
-        console.log(
-            'Field FOUND:',
-            registryEntry
-        );
 
         const fieldName = change.field;
 
@@ -175,22 +213,74 @@ function analyzeImpact() {
                 .push(change.screen);
         }
         if (registryEntry) {
+
+            const impactedFlows = [];
+
+            for (const [flowName, flowData] of Object.entries(flowRegistry)) {
+
+                const flowScreens =
+                    flowData.screens || [];
+
+                const matches =
+                    registryEntry.screens.some(
+                        screen =>
+                            flowScreens.includes(screen)
+                    );
+
+                if (matches) {
+                    impactedFlows.push(flowName);
+                }
+            }
+
             impactMap[fieldName]
                 .impactedFlows = [
+                    
                     ...new Set([
                         ...impactMap[fieldName]
                             .impactedFlows,
 
-                        ...(registryEntry.flows || [])
+                        ...impactedFlows
                     ])
                 ];
-        }    
+            if (DEBUG) {
+                console.log(
+                    'Impacted Flows:',
+                    impactMap[fieldName]
+                        .impactedFlows
+                );
+            }
+        }  
 
+        if (DEBUG) {
+            console.log(
+                '\nField:',
+                fieldName
+            );
+
+            console.log(
+                'Registry Entry:',
+                JSON.stringify(
+                    registryEntry,
+                    null,
+                    2
+                )
+            );
+        }
+
+        if (DEBUG) {
+            console.log(
+                'Screens for field:',
+                fieldName,
+                registryEntry.screens
+            );
+        }
         impactMap[fieldName]
-            .impactedScreens = [
-                ...impactMap[fieldName]
-                    .originatingScreens
-            ];
+            .impactedScreens = registryEntry
+                ? [...registryEntry.screens]
+                : [
+                    ...impactMap[fieldName]
+                        .originatingScreens
+                ];
         
         impactMap[fieldName]
             .recommendedRegression = [
@@ -245,25 +335,6 @@ function analyzeImpact() {
 const result =
     analyzeImpact();
 
-console.log(
-    '\n=============================='
-);
-
-console.log(
-    'IMPACT ANALYSIS REPORT'
-);
-
-console.log(
-    '==============================\n'
-);
-
-console.log(
-    JSON.stringify(
-        result,
-        null,
-        2
-    )
-);
 
 function getFileCompatibleTimestamp() {
   const now = new Date();
@@ -293,13 +364,15 @@ fs.writeFileSync(
     'utf8'
 );
 
-console.log(
-    '\nSaved to:\n',
-    outputFile
-);
+if (DEBUG) {
+    console.log(
+        '\nSaved to:\n',
+        outputFile
+    );
+}
 
 const report = [];
-
+report.push('======================');
 report.push('TESTSAGE IMPACT REPORT');
 report.push('======================');
 report.push('');
@@ -354,4 +427,10 @@ fs.writeFileSync(
     ),
     report.join('\n'),
     'utf8'
+);
+
+
+
+console.log(
+    report.join('\n'),
 );

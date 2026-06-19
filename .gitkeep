@@ -1,0 +1,17 @@
+metadata/.gitkeep
+
+metadata/baseline/.gitkeep
+metadata/baseline/screens/.gitkeep
+
+metadata/current/.gitkeep
+metadata/current/screens/.gitkeep
+
+metadata/field-changes/.gitkeep
+metadata/field-registry/.gitkeep
+metadata/flows/.gitkeep
+metadata/impact/.gitkeep
+metadata/impact/report/.gitkeep
+metadata/regression/.gitkeep
+metadata/reports/.gitkeep
+metadata/reports/executionResult/.gitkeep
+metadata/test-catalog/.gitkeep

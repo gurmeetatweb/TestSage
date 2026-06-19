@@ -3,7 +3,7 @@
 const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-
+const DEBUG = false;
 // Configuration
 const SCRIPT_ORDER = [
   'tools/buildFieldRegistry.js',
@@ -29,11 +29,13 @@ const SCRIPT_NAMES = [
  */
 function executeScript(scriptPath, scriptName) {
   return new Promise((resolve, reject) => {
-    console.log(`\n${'='.repeat(60)}`);
-    console.log(`📦 Executing: ${scriptName}`);
-    console.log(`📄 Script: ${scriptPath}`);
-    console.log(`${'='.repeat(60)}`);
-    console.log(`⏱️  Started at: ${new Date().toLocaleString()}\n`);
+    if (DEBUG) {
+      console.log(`\n${'='.repeat(60)}`);
+      console.log(`📦 Executing: ${scriptName}`);
+      console.log(`📄 Script: ${scriptPath}`);
+      console.log(`${'='.repeat(60)}`);
+      console.log(`⏱️  Started at: ${new Date().toLocaleString()}\n`);
+    }
 
     const startTime = Date.now();
     
@@ -49,7 +51,9 @@ function executeScript(scriptPath, scriptName) {
     // Capture stdout
     childProcess.stdout.on('data', (data) => {
       stdout += data;
-      console.log(data); // Print in real-time
+      
+        console.log(data); // Print in real-time
+      
     });
 
     // Capture stderr
@@ -113,7 +117,9 @@ function validateScriptPath(scriptPath) {
  * @returns {boolean} - True if all scripts exist
  */
 function validateAllScripts() {
-  console.log('🔍 Validating script paths...');
+  if (DEBUG) {
+    console.log('🔍 Validating script paths...');
+  }
   let allExist = true;
   
   SCRIPT_ORDER.forEach(scriptPath => {
@@ -129,12 +135,14 @@ function validateAllScripts() {
  * Main pipeline execution function
  */
 async function runPipeline() {
-  console.log(`${'='.repeat(60)}`);
-  console.log('🚀 Starting Impact Analysis Pipeline');
-  console.log(`${'='.repeat(60)}`);
-  console.log(`📅 Started at: ${new Date().toLocaleString()}`);
-  console.log(`📁 Working directory: ${process.cwd()}`);
-  console.log(`📋 ${SCRIPT_ORDER.length} scripts to execute\n`);
+  if (DEBUG) {
+    console.log(`${'='.repeat(60)}`);
+    console.log('🚀 Starting Impact Analysis Pipeline');
+    console.log(`${'='.repeat(60)}`);
+    console.log(`📅 Started at: ${new Date().toLocaleString()}`);
+    console.log(`📁 Working directory: ${process.cwd()}`);
+    console.log(`📋 ${SCRIPT_ORDER.length} scripts to execute\n`);
+  }
 
   // Validate all scripts exist
   if (!validateAllScripts()) {
@@ -169,10 +177,11 @@ async function runPipeline() {
   // Generate summary report
   const totalEndTime = Date.now();
   const totalDuration = ((totalEndTime - totalStartTime) / 1000).toFixed(2);
-  
-  console.log(`\n${'='.repeat(60)}`);
-  console.log('📊 Pipeline Execution Summary');
-  console.log(`${'='.repeat(60)}`);
+  if (DEBUG) {
+    console.log(`\n${'='.repeat(60)}`);
+    console.log('📊 Pipeline Execution Summary');
+    console.log(`${'='.repeat(60)}`);
+  }
   
   const successful = results.filter(r => r && r.success === true);
   const failed = results.filter(r => r && r.success === false);
@@ -188,13 +197,15 @@ async function runPipeline() {
   console.log(`\n${'-'.repeat(60)}`);
   console.log(`✅ Successful: ${successful.length}/${SCRIPT_ORDER.length}`);
   console.log(`❌ Failed: ${failed.length}/${SCRIPT_ORDER.length}`);
-  console.log(`⏱️  Total duration: ${totalDuration} seconds`);
-  console.log(`📅 Completed at: ${new Date().toLocaleString()}`);
+  if (DEBUG) {
+    console.log(`⏱️  Total duration: ${totalDuration} seconds`);
+    console.log(`📅 Completed at: ${new Date().toLocaleString()}`);
+    }
   console.log(`${'='.repeat(60)}`);
 
   // Save results to file
   try {
-    const reportPath = path.resolve('tools/pipeline-report.json');
+    const reportPath = path.resolve('metadata/reports/executionResult/pipeline-report.json');
     const report = {
       timestamp: new Date().toISOString(),
       totalDuration: totalDuration,

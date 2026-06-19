@@ -1,11 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-
+const DEBUG = true;
 const CURRENT_FILE = path.join(
     process.cwd(),
     'metadata',
     'field-registry',
-    'fields-current.json'
+    'fields.json'
 );
 
 const HISTORY_FILE = path.join(
@@ -79,10 +79,12 @@ const latestFieldChangeFile = files
     ?.file;
 
 
-console.log(
-    'Latest field change file:',
-    latestFieldChangeFile
-);
+if (DEBUG) {
+    console.log(
+        'Latest field change file:',
+        latestFieldChangeFile
+    );
+}
 
 let fieldChanges = [];
 
@@ -93,30 +95,24 @@ if (latestFieldChangeFile) {
         latestFieldChangeFile
     );
 
-    console.log(
-        'Reading:',
-        fieldChangePath
-    );
+    if (DEBUG) {
+        console.log(
+            'Reading:',
+            fieldChangePath
+        );
+    }
 
     const fileContent =
         fs.readFileSync(
             fieldChangePath,
             'utf8'
         );
-
-    console.log(
-        'Content length:',
-        fileContent.length
-    );
-
-    console.log(
-        'First 200 chars:'
-    );
-
-    console.log(
-        fileContent.substring(0, 200)
-    );
-
+    if (DEBUG) {
+        console.log(
+            'Field change file content:',
+            fileContent
+        );
+    }
     if (fileContent.trim() !== '') {
 
         fieldChanges =
@@ -138,10 +134,6 @@ Object.entries(currentRegistry)
         if (!historyRegistry[field]) {
 
             historyRegistry[field] = {
-
-                screens: [],
-
-                flows: [],
 
                 status: 'Removed',
 
@@ -168,14 +160,6 @@ Object.entries(currentRegistry)
                 ]
             };
         }
-
-        historyRegistry[field]
-            .screens =
-                value.screens;
-
-        historyRegistry[field]
-            .flows =
-                value.flows;
 
         historyRegistry[field]
             .status =
@@ -206,9 +190,28 @@ fieldChanges.forEach(change => {
             !historyRegistry[field]
         ) {
 
+            const removedScreens = [
+
+                ...new Set(
+
+                    fieldChanges
+                        .filter(
+                            fc =>
+                                fc.field === field
+                        )
+                        .map(
+                            fc =>
+                                fc.screen
+                        )
+
+                )
+
+            ];
+
             historyRegistry[field] = {
 
-                screens: [],
+                screens:
+                    removedScreens,
 
                 flows: [],
 
@@ -223,7 +226,6 @@ fieldChanges.forEach(change => {
 
                 removedInVersion:
                     currentVersion,
-                
 
                 history: []
             };
@@ -240,6 +242,27 @@ fieldChanges.forEach(change => {
         historyRegistry[field]
             .removedInVersion =
                 currentVersion;
+        
+        const removedScreens = [
+            ...new Set(
+                fieldChanges
+                    .filter(
+                        fc =>
+                            fc.field === field
+                    )
+                    .map(
+                        fc =>
+                            fc.screen
+                    )
+            )
+        ];
+
+        if (removedScreens.length > 0) {
+
+            historyRegistry[field]
+                .screens =
+                    removedScreens;
+        }
 
         const alreadyExists =
             historyRegistry[field]
@@ -288,12 +311,13 @@ fs.writeFileSync(
 
     'utf8'
 );
+if (DEBUG) {
+    console.log(
+        '\nField history updated.'
+    );
 
-console.log(
-    '\nField history updated.'
-);
-
-console.log(
-    'Saved to:',
-    HISTORY_FILE
-);
+    console.log(
+        'Saved to:',
+        HISTORY_FILE
+    );
+}
